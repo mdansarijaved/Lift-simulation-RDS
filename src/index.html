@@ -17,8 +17,6 @@
                 type="number"
                 name="Floor-input"
                 id="Floor-input"
-                min="0"
-                value="0"
                 class="Floor-input"
                 required
               />
@@ -29,14 +27,12 @@
                 type="number"
                 name="Lift-Input"
                 id="Lift-Input"
-                min="0"
-                value="0"
                 class="Lift-Input"
                 required
               />
             </div>
             <div class="btn-div">
-              <button onclick="Consoling()" class="btn-generate">Generate</button>
+              <button id="btn-generate"  class="btn-generate">Generate</button>
             </div>
           </form>
         </div>
@@ -47,8 +43,8 @@
           <button class="buttons">DN</button>
         </div>
 
-        <div class="lifts">
-            <div class="lift">
+        <div class="lifts" id="lifts">
+            <div class="lift" id="">
                 
             </div>
         </div>
