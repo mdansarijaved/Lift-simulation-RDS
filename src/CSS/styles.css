@@ -5,7 +5,15 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.floor-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin: 10px;
+}
+input{
+    
+}
 .buttons{
     display: inline-block;
     line-height: 1.5;
@@ -18,8 +26,11 @@
     padding: 15px;
     border-radius: 0.25rem;
 }
-
-
+.Floor-input,.Lift-Input{
+    padding-inline: 15px;
+    padding-block: 10px;
+    border: 2px solid gray;
+}
 
 .header{
     background-color: gray;
@@ -35,14 +46,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-block: 50px;
+    
 }
-
+.container-2{
+    padding-block: 30px;
+    padding-inline: 20px;
+    border: 4px solid gray;
+    border-radius: 10px;
+}
 .btn-generate{
     color: white;
-    background: rgb(45, 44, 44);
+    background: rgb(240, 114, 114);
     margin-top: 20px;
+    padding-inline:30px ;
+    padding-block: 10px;
 }
+.btn-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+}
 .floor{
     display: flex;
     align-items: center;
