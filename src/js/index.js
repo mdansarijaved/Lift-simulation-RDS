@@ -1,17 +1,14 @@
 const myButton = document.querySelector(".btn-generate");
-myButton.addEventListener('click', () => {
-  createDivs();
-  console.log("hello world")
-})  
-
-function createDivs() {
+myButton.addEventListener("click", () => {
+  
   var numDivs = parseInt(document.getElementById("Lift-Input").value);
-
-  var container = document.getElementById("lifts");
-  console.log(container)
+  console.log(numDivs);
   for (var i = 0; i < numDivs; i++) {
-    var div = document.createElement("div");
-    div.className = "lift";
-    container.appendChild(div);
+    const mainDiv = document.querySelector(".lifts");
+    const div = document.createElement("div");
+    div.classList.add('lift')
+    mainDiv.appendChild(div)
+    
+    console.log(mainDiv);
   }
-}
+});

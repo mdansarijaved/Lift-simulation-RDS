@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="CSS/styles.css" />
   </head>
   <body>
+    <>
     <div>
       <div class="container">
         <div class="container-2">
-          <form action="">
+          <div>
             <div class="floor-div">
-              <label for="Floor-input">Enter the number of floors :</label>
+              <label for="Floor-input">Number of floors :</label>
               <input
                 type="number"
                 name="Floor-input"
@@ -22,7 +23,7 @@
               />
             </div>
             <div class="floor-div">
-              <label for="Lift-Input">Enter the number of Lifts :</label>
+              <label for="Lift-Input">Number of Lifts :</label>
               <input
                 type="number"
                 name="Lift-Input"
@@ -32,21 +33,22 @@
               />
             </div>
             <div class="btn-div">
-              <button id="btn-generate"  class="btn-generate">Generate</button>
+              <button id="btn-generate" class="btn-generate">Generate</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-      <div class="floor">
+
+      <div class="floor" id="floor">
         <div class="lift-buttons">
           <button class="buttons">UP</button>
           <button class="buttons">DN</button>
         </div>
 
         <div class="lifts" id="lifts">
-            <div class="lift" id="">
+          <!-- <div class="lift">
                 
-            </div>
+            </div> -->
         </div>
       </div>
     </div>
