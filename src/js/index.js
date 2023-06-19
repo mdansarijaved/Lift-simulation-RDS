@@ -1,7 +1,11 @@
+// style="transform: translateY(-126px); transition: transform 1500ms ease-in-out 0s;"
+
+
 let Floor = document.getElementById("Floor-input");
 let Lift = document.getElementById("Lift-Input");
 let submit = document.getElementById("btn-generate");
 let floorsContainer = document.querySelector("#adding-floors");
+let lift = document.createElement("div");
 
 submit.addEventListener("click", () => {
   const inputFloor = Floor.value;
@@ -49,5 +53,16 @@ submit.addEventListener("click", () => {
     mainDiv.appendChild(buttonDiv);
     mainDiv.appendChild(liftDiv);
     floorsContainer.appendChild(mainDiv);
+
+    buttonUp.addEventListener('click',()=>{
+      lift.style.transform = 'translateY(-120px)'; 
+      lift.style.transition = "transform 1500ms ease-in-out 0s"
+    })
+    buttonDown.addEventListener('click',()=>{
+      lift.style.transform = 'translateY(120px)'; 
+      lift.style.transition = "transform 1500ms ease-in-out 0s"
+    })
   }
+
+
 });
