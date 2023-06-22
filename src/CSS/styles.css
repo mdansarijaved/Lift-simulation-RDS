@@ -97,6 +97,7 @@
     width: 60px;
     border-radius: 5px;
     overflow: hidden;
+    position: relative;
     background: rgb(119, 119, 226);
 }
 

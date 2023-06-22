@@ -14,6 +14,10 @@ submit.addEventListener("click", () => {
     alert("floor cannot be less than lift");
     return;
   }
+  if (inputFloor < 0 || inputLift < 0){
+    alert("Enteries cannot be negative"); 
+    return ; 
+  }
   const screenWidth = window.innerWidth;
   if (screenWidth < 600 && inputLift > 3) {
     alert("On mobile, input lift cannot be more than 3");
@@ -54,14 +58,6 @@ submit.addEventListener("click", () => {
     mainDiv.appendChild(liftDiv);
     floorsContainer.appendChild(mainDiv);
 
-    buttonUp.addEventListener('click',()=>{
-      lift.style.transform = 'translateY(-120px)'; 
-      lift.style.transition = "transform 1500ms ease-in-out 0s"
-    })
-    buttonDown.addEventListener('click',()=>{
-      lift.style.transform = 'translateY(120px)'; 
-      lift.style.transition = "transform 1500ms ease-in-out 0s"
-    })
   }
 
 
