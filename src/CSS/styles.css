@@ -59,6 +59,7 @@
     margin-top: 20px;
     padding-inline:30px ;
     padding-block: 10px;
+    margin-inline: 10px;
 }
 .btn-div{
     display: flex;
