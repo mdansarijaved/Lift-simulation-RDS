@@ -4,6 +4,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: #000;
+    color: white;
 }
 .floor-div{
     display: flex;
@@ -12,18 +14,35 @@
     margin: 10px;
 }
 
+    
+
 .buttons{
     display: inline-block;
     line-height: 1.5;
     border: 3px solid rgb(248, 248, 0);
     background: lightgoldenrodyellow;
     text-align: center;
+    color: #000;
     margin-inline: 5px;
     font-weight: 700;
     vertical-align: middle;
     padding: 15px;
     border-radius: 0.25rem;
 }
+@media (max-width: 767px) {
+    .buttons {
+      line-height: 1;
+      margin-inline: 0px;
+      margin-block: 8px;
+      font-weight: 500;
+      padding: 8px;
+     
+    }
+      
+ }
+  
+    
+
 .Floor-input,.Lift-Input{
     padding-inline: 15px;
     padding-block: 10px;
@@ -61,23 +80,34 @@
     padding-block: 10px;
     margin-inline: 10px;
 }
+
 .btn-div{
     display: flex;
     justify-content: center;
     align-items: center;
 
 }
+@media (max-width: 767px) {
+    .btn-div {
+      display: flex;
+      flex-direction: column;
+      margin-block: 10px;
+    }
+  }
 .floor{
     display: flex;
     align-items: center;
     height: 120px;
-    /* margin-top: 80px; */
     margin-inline: 40px;
     padding: 0 30px 10px;
-    border-bottom: 2px solid rgb(0, 0, 0);
+    border-bottom: 2px solid white;
     
 }
-
+@media screen and (max-width: 767px) {
+    .floor {
+      margin-inline: 2px;
+    }
+  }
 .lastFloor{
     margin-bottom: 80px;
 }
@@ -99,7 +129,90 @@
     border-radius: 5px;
     overflow: hidden;
     position: relative;
-    background: rgb(119, 119, 226);
+    background:rgb(197, 197, 250);
+    border: 2px solid rgb(98, 98, 236);
+}
+.liftdoor{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background: rgb(71, 71, 193);
+
+    
+}
+@keyframes slide-open {
+    0% {
+      background-color:rgb(71, 71, 193);
+        opacity:   1;
+    }
+    100% {
+      background-color:rgb(199, 199, 245) ;
+      transform: translateX(100%);
+        opacity: 1;
+    }
+  }
+  
+  @keyframes slide-close {
+    0% {
+        background-color:rgb(199, 199, 245) ;
+        transform: translateX(100%);
+        opacity: 1;
+       /* Wider width of the lift element */
+    }
+  
+    100% {
+        background-color: rgb(71, 71, 193); ;
+        transform: translateX();
+        opacity: 1;
+    }
+  }
+
+  
+  
+  
+  
+  
+  
+
+@media screen and (max-width: 767px) {
+    .lift {
+      width: 50px;
+    }
+  }
+    
+.door-up {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: rgb(0, 0, 0);
+    opacity: 0.2;
+    transform: skewY(-180deg);
+    transform-origin: bottom left;
+    transition: 0.5s;
+}
+.animate{
+    background: #000;
+}
+.door-down {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: rgb(0, 0, 0);
+    opacity: 0.2;
+    transform: skewY(180deg);
+    transform-origin: top left;
+    transition: 0.5s;
 }
 
 
