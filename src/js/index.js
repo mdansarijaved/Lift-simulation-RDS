@@ -9,7 +9,24 @@ let liftsState = [];
 submit.addEventListener("click", () => {
   const inputFloor = +Floor.value;
   const inputLift = +Lift.value;
-  Checking(inputFloor, inputLift);
+  // Checking(inputFloor, inputLift);
+  if (inputFloor < inputLift) {
+    alert("floor cannot be less than lift");
+    return;
+  }
+  if (inputFloor < 0 || inputLift < 0 || inputLift > 7) {
+    alert("Entries cannot be negative");
+    return;
+  }
+  
+  const screenWidth = window.innerWidth;
+  if (screenWidth < 600 && inputLift > 3) {
+    alert("On mobile, input lift cannot be more than 3");
+    return;
+  }
+  while (floorsContainer.firstChild) {
+    floorsContainer.firstChild.remove();
+  }
   
   Createfloor(inputFloor, inputLift);
   liftPositions = [];
@@ -58,29 +75,26 @@ regenerate.addEventListener("click", () => {
 });
 
 
-const Checking = (inputFloor,inputLift) => {
-  console.log(inputFloor,inputLift)
-  if (inputFloor < inputLift) {
-    alert("floor cannot be less than lift");
-    return;
-  }
-  if (inputFloor < 0 || inputLift < 0) {
-    alert("Entries cannot be negative");
-    return;
-  }
-  if(inputLift > 7){
-    alert('lifts cannot be more than 7')
-    return ; 
-  }
-  const screenWidth = window.innerWidth;
-  if (screenWidth < 600 && inputLift > 3) {
-    alert("On mobile, input lift cannot be more than 3");
-    return;
-  }
-  while (floorsContainer.firstChild) {
-    floorsContainer.firstChild.remove();
-  }
-}
+// const Checking = (inputFloor,inputLift) => {
+//   console.log(inputFloor,inputLift)
+//   if (inputFloor < inputLift) {
+//     alert("floor cannot be less than lift");
+//     return;
+//   }
+//   if (inputFloor < 0 || inputLift < 0) {
+//     alert("Entries cannot be negative");
+//     return;
+//   }
+  
+//   const screenWidth = window.innerWidth;
+//   if (screenWidth < 600 && inputLift > 3) {
+//     alert("On mobile, input lift cannot be more than 3");
+//     return;
+//   }
+//   while (floorsContainer.firstChild) {
+//     floorsContainer.firstChild.remove();
+//   }
+// }
 
 const Createfloor = (inputFloor,inputLift) =>{
   for (let i = inputFloor; i > 0; i--) {
