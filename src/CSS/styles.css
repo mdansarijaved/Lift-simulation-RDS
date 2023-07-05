@@ -147,11 +147,11 @@
 }
 @keyframes slide-open {
     0% {
-      background-color:rgb(71, 71, 193);
+        transform: translateX(0%);
         opacity:   1;
     }
     100% {
-      background-color:rgb(199, 199, 245) ;
+   
       transform: translateX(100%);
         opacity: 1;
     }
@@ -159,14 +159,14 @@
   
   @keyframes slide-close {
     0% {
-        background-color:rgb(199, 199, 245) ;
+      
         transform: translateX(100%);
         opacity: 1;
        /* Wider width of the lift element */
     }
   
     100% {
-        background-color: rgb(71, 71, 193); ;
+      
         transform: translateX();
         opacity: 1;
     }

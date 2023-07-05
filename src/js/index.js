@@ -10,16 +10,15 @@ submit.addEventListener("click", () => {
   const inputFloor = +Floor.value;
   const inputLift = +Lift.value;
   Checking(inputFloor, inputLift);
-  createState(inputLift);
+  
   Createfloor(inputFloor, inputLift);
   liftPositions = [];
-  currentPositions = Array.from({ length: inputLift }, () => 0);
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let activeLiftIndex = 0;
   buttonsall.forEach((buttonsall, index) => {
     buttonsall.addEventListener("click", (e) => {
+      currentPositions = Array.from({ length: inputLift }, () => 0);
       const floorvalue = parseInt(buttonsall.id);
-      let y = getIdleLift(index);
       const lifts = Array.from(document.querySelectorAll(".lift"));
       const translatioindistance = (floorvalue - 1) * 120;
       if (activeLiftIndex >= 0 && activeLiftIndex < lifts.length) {
@@ -58,40 +57,6 @@ regenerate.addEventListener("click", () => {
   }
 });
 
-function getIdleLift(destination) {
-  console.log(`Checking for idle lift to reach floor ${destination}`);
-  let minDis = Infinity;
-  let res = -1;
-
-  for (let i = 0; i < liftsState.length; i++) {
-    if (liftsState[i].idle) {
-      let currDiff = Math.abs(destination - liftsState[i].currentFloor);
-      console.log("Checking lift", i, "with difference", currDiff);
-      if (currDiff < minDis) {
-        minDis = currDiff;
-        res = i;    
-      }
-    }
-  }
-
-  if (res !== -1) {
-    liftsState[res].idle = false;
-    liftsState[res].currentFloor = destination;
-    console.log('this is ',liftsState)
-  }
-  console.log("this is another",liftsState)
-  return res;
-}
-
-
-function createState(lifts) {
-  console.log("Creating state for lifts");
-  liftsState = [];
-  for (let i = 0; i < lifts; i++) {
-    liftsState.push({ idle: true, currentFloor: 0 });
-  }
-  console.log(liftsState);
-}
 
 const Checking = (inputFloor,inputLift) => {
   console.log(inputFloor,inputLift)
@@ -103,12 +68,15 @@ const Checking = (inputFloor,inputLift) => {
     alert("Entries cannot be negative");
     return;
   }
+  if(inputLift > 7){
+    alert('lifts cannot be more than 7')
+    return ; 
+  }
   const screenWidth = window.innerWidth;
   if (screenWidth < 600 && inputLift > 3) {
     alert("On mobile, input lift cannot be more than 3");
     return;
   }
- 
   while (floorsContainer.firstChild) {
     floorsContainer.firstChild.remove();
   }
@@ -154,12 +122,12 @@ const CreateLift = (liftDiv) => {
   let liftDoor = document.createElement('div')
   liftDoor.classList.add('liftdoor')
   lift.classList.add("lift", "lift" + 1);
-  lift.dataset.position = 0; // Set the initial position value as 0 for each lift
+  lift.dataset.position = 0; 
   let door = document.createElement("div");
   door.classList.add("door");
   lift.appendChild(liftDoor)
   liftDiv.appendChild(lift);
   liftPositions.push(0);
-  currentPositions.push(0); // Add 0 as the initial current position for the lift
+ 
 }
 
