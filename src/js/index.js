@@ -14,8 +14,8 @@ submit.addEventListener("click", () => {
     alert("floor cannot be less than lift");
     return;
   }
-  if (inputFloor < 0 || inputLift < 0 || inputLift > 7) {
-    alert("Entries cannot be negative");
+  if (inputFloor <= 0 || inputLift <= 0 || inputLift > 7) {
+    alert("Entries cannot be negative or zero");
     return;
   }
   
