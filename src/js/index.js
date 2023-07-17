@@ -14,11 +14,13 @@ submit.addEventListener("click", () => {
     alert("floor cannot be less than lift");
     return;
   }
+  if (inputFloor < 0 || inputLift < 0 || inputLift > 7) {
+    alert("Entries cannot be negative");
+  }
   if (inputFloor <= 0 || inputLift <= 0 || inputLift > 7) {
     alert("Entries cannot be negative or zero");
     return;
   }
-  
   const screenWidth = window.innerWidth;
   if (screenWidth < 600 && inputLift > 3) {
     alert("On mobile, input lift cannot be more than 3");
@@ -32,7 +34,7 @@ submit.addEventListener("click", () => {
   liftPositions = [];
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let activeLiftIndex = 0;
-  buttonsall.forEach((buttonsall, index) => {
+  buttonsall.forEach((buttonsall) => {
     buttonsall.addEventListener("click", (e) => {
       currentPositions = Array.from({ length: inputLift }, () => 0);
       const floorvalue = parseInt(buttonsall.id);
@@ -45,18 +47,17 @@ submit.addEventListener("click", () => {
         let distance = Math.abs(floorvalue - currentPositions[activeLiftIndex]) * 2;
         console.log(distance);
         lifts[activeLiftIndex].style.transition = `transform ${distance}s linear 0s`;
-        // Set the position value to the floor value
         setTimeout(function() {
           let liftdoor = document.querySelectorAll('.liftdoor');
           liftdoor[activeLiftIndex].style.animation = "slide-open 2s forwards";
           setTimeout(function() {
             let liftdoor = document.querySelectorAll('.liftdoor');
             liftdoor[activeLiftIndex].style.animation = "slide-close 2s forwards";
-            activeLiftIndex = (activeLiftIndex + 1) % lifts.length;
             currentPositions[activeLiftIndex] = floorvalue;
             console.log("current position after:", currentPositions[activeLiftIndex]);
           }, 2000);
         }, (distance * 1000 ));
+        activeLiftIndex = (activeLiftIndex + 1) % lifts.length;
       }
     });
   });
@@ -123,6 +124,4 @@ const CreateLift = (liftDiv) => {
   lift.appendChild(liftDoor)
   liftDiv.appendChild(lift);
   liftPositions.push(0);
- 
 }
-
