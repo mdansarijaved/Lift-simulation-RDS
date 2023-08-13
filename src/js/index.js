@@ -4,7 +4,7 @@ let submit = document.getElementById("btn-generate");
 let floorsContainer = document.querySelector("#adding-floors");
 let liftPositions = [];
 let currentPositions = [];
-let liftsState = [];
+let liftStates = []; 
 
 submit.addEventListener("click", () => {
   const inputFloor = +Floor.value;
@@ -34,37 +34,21 @@ submit.addEventListener("click", () => {
   liftPositions = [];
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let activeLiftIndex = 0;
-  buttonsall.forEach((buttonsall) => {
-    buttonsall.addEventListener("click", (e) => {
-      currentPositions = Array.from({ length: inputLift }, () => 0);
-      const floorvalue = parseInt(buttonsall.id);
-      const lifts = Array.from(document.querySelectorAll(".lift"));
-      const translatioindistance = (floorvalue - 1) * 120;
-      if (activeLiftIndex >= 0 && activeLiftIndex < lifts.length) {
-        lifts[activeLiftIndex].style.transform = `translateY(-${translatioindistance}px)`;
-        console.log("Current position:", currentPositions[activeLiftIndex]);
-        console.log('floor value ', floorvalue)
-        let distance = Math.abs(floorvalue - currentPositions[activeLiftIndex]) * 2;
-        console.log(distance);
-        lifts[activeLiftIndex].style.transition = `transform ${distance}s linear 0s`;
-        setTimeout(function() {
-          let liftdoor = document.querySelectorAll('.liftdoor');
-          liftdoor[activeLiftIndex].style.animation = "slide-open 2s forwards";
-          setTimeout(function() {
-            let liftdoor = document.querySelectorAll('.liftdoor');
-            liftdoor[activeLiftIndex].style.animation = "slide-close 2s forwards";
-            currentPositions[activeLiftIndex] = floorvalue;
-            console.log("current position after:", currentPositions[activeLiftIndex]);
-          }, 2000);
-        }, (distance * 1000 ));
-        activeLiftIndex = (activeLiftIndex + 1) % lifts.length;
-      }
-    });
-  });
-  
+ 
+  MoveLift(buttonsall);
 });
 
 // Rest of the code remains the same
+
+const MoveLift = ({buttonsall}) =>{
+  buttonsall.forEach((buttonsal) => {
+    buttonsal.addEventListener("click", (e) => {
+    let lift = document.querySelectorAll(".lift");
+      console.log(liftStates)
+      
+    });
+  });
+}
 
 
 const regenerate = document.querySelector("#btn-regenerate");
@@ -124,4 +108,8 @@ const CreateLift = (liftDiv) => {
   lift.appendChild(liftDoor)
   liftDiv.appendChild(lift);
   liftPositions.push(0);
+  liftStates.push({
+    active : false, 
+    currentFloor: 0, 
+  })
 }
