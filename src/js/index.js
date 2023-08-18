@@ -4,12 +4,12 @@ let submit = document.getElementById("btn-generate");
 let floorsContainer = document.querySelector("#adding-floors");
 let liftPositions = [];
 let currentPositions = [];
-let liftStates = []; 
+let liftStates = [];
 
 submit.addEventListener("click", () => {
   const inputFloor = +Floor.value;
   const inputLift = +Lift.value;
- 
+
   if (inputFloor < inputLift) {
     alert("floor cannot be less than lift");
     return;
@@ -29,27 +29,48 @@ submit.addEventListener("click", () => {
   while (floorsContainer.firstChild) {
     floorsContainer.firstChild.remove();
   }
-  
-  Createfloor(inputFloor, inputLift);
+
   liftPositions = [];
-  let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let activeLiftIndex = 0;
- 
-  MoveLift(buttonsall);
 });
 
 // Rest of the code remains the same
 
-const MoveLift = ({buttonsall}) =>{
+const MoveLift = () => {
+  let buttonsall = Array.from(document.querySelectorAll(".buttons"));
+  let index = 0;
   buttonsall.forEach((buttonsal) => {
     buttonsal.addEventListener("click", (e) => {
-    let lift = document.querySelectorAll(".lift");
-      console.log(liftStates)
-      
+      console.log(e.target.id);
+      let lifts = Array.from(document.querySelectorAll(".lift"));
+      let liftDoor = document.querySelectorAll(".liftdoor");
+      let time = Math.abs((liftStates[index].currentFloor - e.target.id)* 2 );
+      console.log(time);
+      console.log(lifts);
+      if (liftStates[index].active === false) {
+        lifts[index].style.transform = `translateY(-${
+          (e.target.id - 1) * 120
+        }px)`;
+        lifts[index].style.transition = `all ${time}s ease-in-out`;
+      }
+
+      liftStates[index].active = true;
+      liftStates[index].currentFloor = e.target.id;
+      console.log(liftStates);
+      let newIndex = index;
+      setTimeout(() => {
+        liftStates[newIndex].active = false;
+        liftStates[newIndex].currentFloor = e.target.id;
+        console.log(liftStates);
+      }, time);
+      if (index < lifts.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
     });
   });
-}
-
+};
 
 const regenerate = document.querySelector("#btn-regenerate");
 
@@ -59,10 +80,7 @@ regenerate.addEventListener("click", () => {
   }
 });
 
-
-
-
-const Createfloor = (inputFloor,inputLift) =>{
+const Createfloor = (inputFloor, inputLift) => {
   for (let i = inputFloor; i > 0; i--) {
     let mainDiv = document.createElement("div");
     let buttonDiv = document.createElement("div");
@@ -84,7 +102,7 @@ const Createfloor = (inputFloor,inputLift) =>{
       buttonDiv.appendChild(buttonDown);
     } else if (i === 1) {
       for (let j = 0; j < inputLift; j++) {
-        CreateLift(liftDiv)
+        CreateLift(liftDiv);
       }
       buttonDiv.appendChild(buttonUp);
     } else {
@@ -95,21 +113,23 @@ const Createfloor = (inputFloor,inputLift) =>{
     mainDiv.appendChild(liftDiv);
     floorsContainer.appendChild(mainDiv);
   }
-}
+  MoveLift();
+};
 
 const CreateLift = (liftDiv) => {
   let lift = document.createElement("div");
-  let liftDoor = document.createElement('div')
-  liftDoor.classList.add('liftdoor')
+  let liftDoor = document.createElement("div");
+  liftDoor.classList.add("liftdoor");
   lift.classList.add("lift", "lift" + 1);
-  lift.dataset.position = 0; 
+  lift.dataset.position = 0;
   let door = document.createElement("div");
   door.classList.add("door");
-  lift.appendChild(liftDoor)
+  lift.appendChild(liftDoor);
   liftDiv.appendChild(lift);
   liftPositions.push(0);
   liftStates.push({
-    active : false, 
-    currentFloor: 0, 
-  })
-}
+    active: false,
+    currentFloor: 0,
+  });
+};
+Createfloor(5, 3);
