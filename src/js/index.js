@@ -54,6 +54,7 @@ const MoveLift = () => {
         lifts[index].style.transition = `all ${time}s ease-in-out`;
       }
 
+      
       liftStates[index].active = true;
       liftStates[index].currentFloor = e.target.id;
       console.log(liftStates);
@@ -63,6 +64,18 @@ const MoveLift = () => {
         liftStates[newIndex].currentFloor = e.target.id;
         console.log(liftStates);
       }, time);
+      // now creating the door
+      setTimeout(() => {
+        liftDoor[newIndex].style.transform = `translateX(-${
+          (e.target.id - 1) * 120
+        }px)`;
+        liftDoor[newIndex].style.transition = `all ${time}s ease-in-out`;
+        setTimeout(() => {
+          liftDoor[newIndex].style.transform = `translateX(0px)`;
+          liftDoor[newIndex].style.transition = `all ${time}s ease-in-out`;
+        }, 2 * 1000);
+      }, time * 1000);
+
       if (index < lifts.length - 1) {
         index++;
       } else {
