@@ -5,6 +5,7 @@ let floorsContainer = document.querySelector("#adding-floors");
 let liftPositions = [];
 let currentPositions = [];
 let liftStates = [];
+const clickQueue = [];
 
 submit.addEventListener("click", () => {
   const inputFloor = +Floor.value;
@@ -35,51 +36,55 @@ submit.addEventListener("click", () => {
 });
 
 // Rest of the code remains the same
-
+function processNextClick() {
+  const nextClick = clickQueue.shift();
+  if (nextClick) {
+    nextClick();
+  }
+}
 const MoveLift = () => {
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let index = 0;
   buttonsall.forEach((buttonsal) => {
     buttonsal.addEventListener("click", (e) => {
-      console.log(e.target.id);
-      let lifts = Array.from(document.querySelectorAll(".lift"));
-      let liftDoor = document.querySelectorAll(".liftdoor");
-      let time = Math.abs((liftStates[index].currentFloor - e.target.id)* 2 );
-      console.log(time);
-      console.log(lifts);
-      if (liftStates[index].active === false) {
-        lifts[index].style.transform = `translateY(-${
-          (e.target.id - 1) * 120
-        }px)`;
-        lifts[index].style.transition = `all ${time}s ease-in-out`;
-      }
-
-      
-      liftStates[index].active = true;
-      liftStates[index].currentFloor = e.target.id;
-      console.log(liftStates);
-      let newIndex = index;
-      setTimeout(() => {
-        liftStates[newIndex].active = false;
-        liftStates[newIndex].currentFloor = e.target.id;
-        console.log(liftStates);
-      }, time);
-      // now creating the door
-      setTimeout(() => {
-        liftDoor[newIndex].style.transform = `translateX(-${
-          (e.target.id - 1) * 120
-        }px)`;
-        liftDoor[newIndex].style.transition = `all ${time}s ease-in-out`;
+      clickQueue.push(() => {
+        console.log(e.target.id);
+        let lifts = Array.from(document.querySelectorAll(".lift"));
+        let liftDoor = document.querySelectorAll(".liftdoor");
+        let time = Math.abs((liftStates[index].currentFloor - e.target.id) * 2);
+        console.log(time);
+        let id = 0;
+        console.log(lifts);
+        if (liftStates[index].active !== true) {
+          lifts[index].style.transform = `translateY(-${
+            (e.target.id - 1) * 120
+          }px)`;
+          lifts[index].style.transition = `all ${time}s ease-in-out`;
+          liftStates[index].active = true;
+        }
+        let newIndex = index;
         setTimeout(() => {
-          liftDoor[newIndex].style.transform = `translateX(0px)`;
-          liftDoor[newIndex].style.transition = `all ${time}s ease-in-out`;
-        }, 2 * 1000);
-      }, time * 1000);
+          liftStates[newIndex].active = false;
+          liftStates[newIndex].currentFloor = e.target.id;
+          id = e.target.id;
+        }, time * 1000);
 
-      if (index < lifts.length - 1) {
-        index++;
-      } else {
-        index = 0;
+        setTimeout(() => {
+          liftDoor[newIndex].style.animation = `slide-open 2s forwards`;
+          setTimeout(() => {
+            liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
+          }, 2 * 1000);
+        }, time * 1000);
+
+        if (index < lifts.length - 1) {
+          index++;
+        } else {
+          index = 0;
+        }
+      });
+
+      if (clickQueue.length === 1) {
+        processNextClick();
       }
     });
   });
@@ -145,4 +150,4 @@ const CreateLift = (liftDiv) => {
     currentFloor: 0,
   });
 };
-Createfloor(5, 3);
+Createfloor(5, 2);

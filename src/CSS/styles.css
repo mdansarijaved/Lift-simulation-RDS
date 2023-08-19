@@ -130,7 +130,7 @@
     overflow: hidden;
     position: relative;
     background:rgb(197, 197, 250);
-    border: 2px solid rgb(98, 98, 236);
+    border: 2px solid 	#71797E;
 }
 .liftdoor{
     height: 100%;
@@ -141,7 +141,7 @@
     top: 0;
     left: 0;
     z-index: 9;
-    background: rgb(71, 71, 193);
+    background: #71797E;
 
     
 }
