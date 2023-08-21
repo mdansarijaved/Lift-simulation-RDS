@@ -39,49 +39,56 @@ submit.addEventListener("click", () => {
 function processNextClick() {
   const nextClick = clickQueue.shift();
   if (nextClick) {
-    nextClick();
+    nextClick();  
   }
 }
+
+function actualMove(index, lifts, time , stateid,liftDoor) {
+  console.log("index: "+index);
+  console.log("stateid: "+stateid)
+  console.log("time: "+time);
+  let id = 0;
+  console.log(lifts);
+  if (liftStates[index].active !== true) {
+    lifts.style.transform = `translateY(-${(stateid - 1) * 120}px)`;
+    lifts.style.transition = `all ${time}s ease-in-out`;
+    liftStates.active = true;
+  }
+  let newIndex = index;
+  setTimeout(() => {
+    liftStates[newIndex].active = false;
+    liftStates[newIndex].currentFloor = stateid;
+    id = stateid;
+  }, time * 1000);
+
+  setTimeout(() => {
+    liftDoor[newIndex].style.animation = `slide-open 2s forwards`;
+    setTimeout(() => {
+      liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
+    }, 2 * 1000);
+  }, time * 1000);
+}
+
 const MoveLift = () => {
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let index = 0;
   buttonsall.forEach((buttonsal) => {
     buttonsal.addEventListener("click", (e) => {
+      let lifts = Array.from(document.querySelectorAll(".lift"));
+      let time = Math.abs((liftStates[index].currentFloor - e.target.id) * 2);
       clickQueue.push(() => {
-        console.log(e.target.id);
-        let lifts = Array.from(document.querySelectorAll(".lift"));
         let liftDoor = document.querySelectorAll(".liftdoor");
-        let time = Math.abs((liftStates[index].currentFloor - e.target.id) * 2);
-        console.log(time);
-        let id = 0;
-        console.log(lifts);
-        if (liftStates[index].active !== true) {
-          lifts[index].style.transform = `translateY(-${
-            (e.target.id - 1) * 120
-          }px)`;
-          lifts[index].style.transition = `all ${time}s ease-in-out`;
-          liftStates[index].active = true;
-        }
-        let newIndex = index;
-        setTimeout(() => {
-          liftStates[newIndex].active = false;
-          liftStates[newIndex].currentFloor = e.target.id;
-          id = e.target.id;
-        }, time * 1000);
-
-        setTimeout(() => {
-          liftDoor[newIndex].style.animation = `slide-open 2s forwards`;
-          setTimeout(() => {
-            liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
-          }, 2 * 1000);
-        }, time * 1000);
-
-        if (index < lifts.length - 1) {
-          index++;
-        } else {
-          index = 0;
-        }
+        let Lift = lifts[index];
+        let Time = time;
+        let Index = index;
+        let Stateid = e.target.id;
+        actualMove(Index, Lift, Time,Stateid,liftDoor);
       });
+      if (index < lifts.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
 
       if (clickQueue.length === 1) {
         processNextClick();
@@ -150,4 +157,4 @@ const CreateLift = (liftDiv) => {
     currentFloor: 0,
   });
 };
-Createfloor(5, 2);
+Createfloor(5, 1);
