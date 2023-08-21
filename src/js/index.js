@@ -32,7 +32,7 @@ submit.addEventListener("click", () => {
   }
 
   liftPositions = [];
-  let activeLiftIndex = 0;
+
 });
 
 // Rest of the code remains the same
@@ -76,12 +76,12 @@ const MoveLift = () => {
     buttonsal.addEventListener("click", (e) => {
       let lifts = Array.from(document.querySelectorAll(".lift"));
       let time = Math.abs((liftStates[index].currentFloor - e.target.id) * 2);
+      let liftDoor = document.querySelectorAll(".liftdoor");
+      let Lift = lifts[index];
+      let Time = time;
+      let Index = index;
+      let Stateid = e.target.id;
       clickQueue.push(() => {
-        let liftDoor = document.querySelectorAll(".liftdoor");
-        let Lift = lifts[index];
-        let Time = time;
-        let Index = index;
-        let Stateid = e.target.id;
         actualMove(Index, Lift, Time,Stateid,liftDoor);
       });
       if (index < lifts.length - 1) {
@@ -89,7 +89,6 @@ const MoveLift = () => {
       } else {
         index = 0;
       }
-
       if (clickQueue.length === 1) {
         processNextClick();
       }
