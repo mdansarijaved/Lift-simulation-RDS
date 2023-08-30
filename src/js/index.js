@@ -32,21 +32,15 @@ submit.addEventListener("click", () => {
   }
 
   liftPositions = [];
-
 });
 
 // Rest of the code remains the same
-function processNextClick() {
-  const nextClick = clickQueue.shift();
-  if (nextClick) {
-    nextClick();  
-  }
-}
 
-function actualMove(index, lifts, time , stateid,liftDoor) {
-  console.log("index: "+index);
-  console.log("stateid: "+stateid)
-  console.log("time: "+time);
+const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
+  console.log("actualMove");
+  console.log("index: " + index);
+  console.log("stateid: " + stateid);
+  console.log("time: " + time);
   let id = 0;
   console.log(lifts);
   if (liftStates[index].active !== true) {
@@ -67,11 +61,12 @@ function actualMove(index, lifts, time , stateid,liftDoor) {
       liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
     }, 2 * 1000);
   }, time * 1000);
-}
+};
 
 const MoveLift = () => {
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
   let index = 0;
+
   buttonsall.forEach((buttonsal) => {
     buttonsal.addEventListener("click", (e) => {
       let lifts = Array.from(document.querySelectorAll(".lift"));
@@ -81,17 +76,19 @@ const MoveLift = () => {
       let Time = time;
       let Index = index;
       let Stateid = e.target.id;
-      clickQueue.push(() => {
-        actualMove(Index, Lift, Time,Stateid,liftDoor);
-      });
+
+      clickQueue.push(Stateid);
+
       if (index < lifts.length - 1) {
         index++;
       } else {
         index = 0;
       }
-      if (clickQueue.length === 1) {
-        processNextClick();
+      if (clickQueue.length > 3) {
+        const nextClick = clickQueue.shift();
+        nextClick();
       }
+      console.log(clickQueue);
     });
   });
 };
@@ -156,4 +153,4 @@ const CreateLift = (liftDiv) => {
     currentFloor: 0,
   });
 };
-Createfloor(5, 1);
+Createfloor(5, 2);
