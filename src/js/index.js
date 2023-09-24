@@ -35,6 +35,14 @@ submit.addEventListener("click", () => {
 });
 
 // Rest of the code remains the same
+const doorOpen = (lift, liftDoor) => {
+  liftDoor.style.animation = `slide-open 2s forwards`;
+  setTimeout(() => {
+    liftDoor.style.animation = `slide-close 2s forwards`;
+  }, 2 * 1000);
+};
+
+
 
 const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
   console.log("actualMove");
@@ -43,17 +51,12 @@ const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
   console.log("time: " + time);
   let id = 0;
   console.log(lifts);
-  if (liftStates[index].active !== true) {
+  if (!liftStates[index].active) {
     lifts.style.transform = `translateY(-${(stateid - 1) * 120}px)`;
-    lifts.style.transition = `all ${time}s ease-in-out`;
+    lifts.style.transition = `all ${time}s linear`;
     liftStates.active = true;
   }
   let newIndex = index;
-  setTimeout(() => {
-    liftStates[newIndex].active = false;
-    liftStates[newIndex].currentFloor = stateid;
-    id = stateid;
-  }, time * 1000);
 
   setTimeout(() => {
     liftDoor[newIndex].style.animation = `slide-open 2s forwards`;
@@ -61,6 +64,9 @@ const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
       liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
     }, 2 * 1000);
   }, time * 1000);
+  liftStates[newIndex].active = false;
+  liftStates[newIndex].currentFloor = stateid;
+  id = stateid;
 };
 
 const MoveLift = () => {
@@ -76,19 +82,41 @@ const MoveLift = () => {
       let Time = time;
       let Index = index;
       let Stateid = e.target.id;
+      if (liftStates[index].active === false) {
+        actualMove({
+          lifts: Lift,
+          time: Time,
+          index: Index,
+          stateid: Stateid,
+          liftDoor: liftDoor,
+        });
+      }
+      if (liftStates[index].currentFloor === e.target.id) {
+        clickQueue.shift();
+      }
 
-      clickQueue.push(Stateid);
+      if (liftStates[index].currentFloor !== e.target.id) {
+        clickQueue.push({
+          lifts: Lift,
+          time: Time,
+          index: Index,
+          stateid: Stateid,
+          liftDoor: liftDoor,
+        });
+      }
+      if (clickQueue.length > 1) {
+        console.log("clickQueue");
+        console.log(clickQueue);
+        actualMove(clickQueue[0]);
+        clickQueue.shift();
+        console.log(clickQueue);
+      }
 
-      if (index < lifts.length - 1) {
-        index++;
-      } else {
+      if (index === lifts.length - 1) {
         index = 0;
+      } else {
+        index++;
       }
-      if (clickQueue.length > 3) {
-        const nextClick = clickQueue.shift();
-        nextClick();
-      }
-      console.log(clickQueue);
     });
   });
 };
