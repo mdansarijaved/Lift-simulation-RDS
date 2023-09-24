@@ -35,39 +35,6 @@ submit.addEventListener("click", () => {
 });
 
 // Rest of the code remains the same
-const doorOpen = (lift, liftDoor) => {
-  liftDoor.style.animation = `slide-open 2s forwards`;
-  setTimeout(() => {
-    liftDoor.style.animation = `slide-close 2s forwards`;
-  }, 2 * 1000);
-};
-
-
-
-const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
-  console.log("actualMove");
-  console.log("index: " + index);
-  console.log("stateid: " + stateid);
-  console.log("time: " + time);
-  let id = 0;
-  console.log(lifts);
-  if (!liftStates[index].active) {
-    lifts.style.transform = `translateY(-${(stateid - 1) * 120}px)`;
-    lifts.style.transition = `all ${time}s linear`;
-    liftStates.active = true;
-  }
-  let newIndex = index;
-
-  setTimeout(() => {
-    liftDoor[newIndex].style.animation = `slide-open 2s forwards`;
-    setTimeout(() => {
-      liftDoor[newIndex].style.animation = `slide-close 2s forwards`;
-    }, 2 * 1000);
-  }, time * 1000);
-  liftStates[newIndex].active = false;
-  liftStates[newIndex].currentFloor = stateid;
-  id = stateid;
-};
 
 const MoveLift = () => {
   let buttonsall = Array.from(document.querySelectorAll(".buttons"));
@@ -82,7 +49,7 @@ const MoveLift = () => {
       let Time = time;
       let Index = index;
       let Stateid = e.target.id;
-      if (liftStates[index].active === false) {
+      if (!liftStates[index].active) {
         actualMove({
           lifts: Lift,
           time: Time,
@@ -90,12 +57,7 @@ const MoveLift = () => {
           stateid: Stateid,
           liftDoor: liftDoor,
         });
-      }
-      if (liftStates[index].currentFloor === e.target.id) {
-        clickQueue.shift();
-      }
-
-      if (liftStates[index].currentFloor !== e.target.id) {
+      } else {
         clickQueue.push({
           lifts: Lift,
           time: Time,
@@ -104,13 +66,22 @@ const MoveLift = () => {
           liftDoor: liftDoor,
         });
       }
-      if (clickQueue.length > 1) {
+
+      const intervalId = setInterval(() => {
         console.log("clickQueue");
         console.log(clickQueue);
-        actualMove(clickQueue[0]);
-        clickQueue.shift();
+
+        if (clickQueue.length > 0) {
+          actualMove(clickQueue[0]);
+          clickQueue.shift();
+        }
+
         console.log(clickQueue);
-      }
+
+        if (clickQueue.length === 0) {
+          clearInterval(intervalId);
+        }
+      }, time * 1000);
 
       if (index === lifts.length - 1) {
         index = 0;
@@ -119,6 +90,40 @@ const MoveLift = () => {
       }
     });
   });
+};
+
+const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
+  console.log("actualMove");
+  console.log(liftStates[index].active);
+  console.log("index: " + index);
+  console.log("stateid: " + stateid);
+  console.log("time: " + time);
+  let id = 0;
+  console.log(lifts);
+  if (!liftStates[index].active) {
+    liftStates[index].active = true; // now lift is moving
+    lifts.style.transform = `translateY(-${(stateid - 1) * 120}px)`;
+    lifts.style.transition = `all ${time}s linear`;
+    console.log(`The lift no ${index} is ${liftStates[index].active}`);
+    console.log("the lift is moving");
+  }
+
+  setTimeout(() => {
+    console.log("now lift has stopped");
+    liftStates[index].active = false;
+    liftStates[index].currentFloor = stateid;
+    id = stateid;
+    console.log(`this is id ${id}`);
+  }, time * 1000);
+
+  if (liftStates.currentFloor === id) {
+    liftDoor[index].style.animation = `slide-open 2s forwards`;
+    setTimeout(() => {
+      liftDoor[index].style.animation = `slide-close 2s forwards`;
+    }, 2 * 1000);
+
+    console.log(`The lift no ${index} is ${liftStates[index].active}`);
+  }
 };
 
 const regenerate = document.querySelector("#btn-regenerate");
@@ -177,8 +182,8 @@ const CreateLift = (liftDiv) => {
   liftDiv.appendChild(lift);
   liftPositions.push(0);
   liftStates.push({
-    active: false,
+    active: false, // lift is stationary
     currentFloor: 0,
   });
 };
-Createfloor(5, 2);
+Createfloor(5, 1);
