@@ -65,19 +65,20 @@ const MoveLift = () => {
           stateid: Stateid,
           liftDoor: liftDoor,
         });
+        console.log(`clickqueue is pushed and its length is ${clickQueue.length}`);
       }
 
       const intervalId = setInterval(() => {
-        console.log("clickQueue");
-        console.log(clickQueue);
+    
+        console.log("this is click",clickQueue);
 
         if (clickQueue.length > 0) {
           actualMove(clickQueue[0]);
           clickQueue.shift();
         }
 
-        console.log(clickQueue);
-
+        console.log("click queue after",clickQueue);
+        console.log(clickQueue.length);
         if (clickQueue.length === 0) {
           clearInterval(intervalId);
         }
@@ -93,13 +94,9 @@ const MoveLift = () => {
 };
 
 const actualMove = ({ lifts, time, index, stateid, liftDoor }) => {
-  console.log("actualMove");
-  console.log(liftStates[index].active);
-  console.log("index: " + index);
-  console.log("stateid: " + stateid);
-  console.log("time: " + time);
+
   let id = 0;
-  console.log(lifts);
+
   if (!liftStates[index].active) {
     liftStates[index].active = true; // now lift is moving
     lifts.style.transform = `translateY(-${(stateid - 1) * 120}px)`;
@@ -186,4 +183,4 @@ const CreateLift = (liftDiv) => {
     currentFloor: 0,
   });
 };
-Createfloor(5, 1);
+Createfloor(5, 2);
